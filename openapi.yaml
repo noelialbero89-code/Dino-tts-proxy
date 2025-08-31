@@ -2,30 +2,23 @@ openapi: 3.1.0
 info:
   title: ElevenLabs TTS Proxy
   version: 1.1.0
-
-# 👇 Truco para el Builder: usa servidor relativo.
-# Así SIEMPRE cae "debajo" del Server URL que pongas en el Builder.
 servers:
-  - url: "/"
-
+  - url: 
+https://dino-tts-proxy-4hu5.vercel.app
 components:
-  # auth por header
   securitySchemes:
     proxyKey:
       type: apiKey
       in: header
       name: Miguel
-  # 👇 vacío, para silenciar "schemas subsection is not an object"
   schemas: {}
-
 paths:
   /tts:
     post:
       operationId: tts_elevenlabs
       security:
         - proxyKey: []
-      summary: Convierte texto en audio (mp3) usando ElevenLabs
-      description: Recibe {text, voice_id?} y devuelve {audio_base64, data_url, mime}.
+      summary: Convierte texto en audio (mp3)
       requestBody:
         required: true
         content:
@@ -34,13 +27,8 @@ paths:
               type: object
               required: [text]
               properties:
-                text:
-                  type: string
-                  description: Texto a sintetizar (recomendado ≤ 500)
-                  maxLength: 1200
-                voice_id:
-                  type: string
-                  description: Nombre o ID de voz (por defecto 'Rachel')
+                text: { type: string, maxLength: 1200 }
+                voice_id: { type: string }
       responses:
         "200":
           description: OK
@@ -50,9 +38,7 @@ paths:
                 type: object
                 properties:
                   audio_base64: { type: string }
-                  data_url: { type: string, description: "data:audio/mpeg;base64,<...>" }
+                  data_url: { type: string }
                   mime: { type: string, example: audio/mpeg }
-        "401": { description: Clave de proxy inválida }
-        "429": { description: Rate limited }
-        "500": { description: Error interno }
+
 
