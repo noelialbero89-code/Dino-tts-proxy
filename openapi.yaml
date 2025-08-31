@@ -3,8 +3,7 @@ info:
   title: ElevenLabs TTS Proxy
   version: 1.1.0
 servers:
-  - url: 
-https://dino-tts-proxy-4hu5.vercel.app
+  - url: https://dino-tts-proxy-4hu5.vercel.app
 components:
   securitySchemes:
     proxyKey:
