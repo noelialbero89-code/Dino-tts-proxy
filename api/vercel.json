@@ -1,7 +1,0 @@
-{
-  "version": 2,
-  "routes": [
-    { "src": "/tts", "dest": "/api/tts.js" },
-    { "src": "/", "dest": "/api/tts.js" }
-  ]
-}
