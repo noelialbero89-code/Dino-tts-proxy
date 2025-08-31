@@ -1,0 +1,48 @@
+openapi: 3.1.0
+info:
+  title: ElevenLabs TTS Proxy
+  version: 1.1.0
+servers:
+  - url: https://TU-PROYECTO.vercel.app
+components:
+  securitySchemes:
+    proxyKey:
+      type: apiKey
+      in: header
+      name: Miguel
+paths:
+  /tts:
+    post:
+      operationId: tts_elevenlabs
+      security:
+        - proxyKey: []
+      summary: Convierte texto en audio (mp3) usando ElevenLabs
+      description: Recibe {text, voice_id?} y devuelve {audio_base64, data_url, mime}.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [text]
+              properties:
+                text:
+                  type: string
+                  maxLength: 1200
+                voice_id:
+                  type: string
+                  description: Nombre o ID (por defecto 'Rachel')
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  audio_base64: { type: string }
+                  data_url: { type: string }
+                  mime: { type: string, example: audio/mpeg }
+        "401": { description: Clave de proxy inválida }
+        "429": { description: Rate limited }
+        "500": { description: Error interno }
